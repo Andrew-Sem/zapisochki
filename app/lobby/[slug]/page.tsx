@@ -22,10 +22,10 @@ const Page: FC<PageProps> = ({ params }) => {
 	const currentUser = { username: 'Karas' };
 	const amdin = { username: 'Losos' };
 	return (
-		<div className='mt-10 space-y-8 max-w-xl mx-auto'>
+		<div className='mt-10 space-y-8'>
 			<div className='container space-y-4'>
 				<h1 className='text-2xl font-semibold'>Ссылка-приглашение:</h1>
-				<div className='bg-secondary py-2 px-4 rounded-md flex space-x-4 justify-between'>
+				<div className='bg-secondary p-4 rounded-md flex space-x-4 justify-between'>
 					<span>https://vk.com/im?sel=156224284...</span>
 					<button>
 						<ClipboardIcon className='w-5 h-5 hover:text-sky-500 transition duration-200' />
