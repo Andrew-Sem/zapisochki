@@ -1,15 +1,11 @@
 import { JoinLobbyForm } from '@/components/forms/join-lobby-form';
 import { Button } from '@/components/ui/button';
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { generateRandomString } from '@/utils/generateRandomString';
+import Link from 'next/link';
 
 export default function Home() {
+	const newLobbyUrl = '/lobby/' + generateRandomString(16);
 	const user = true;
 	return (
 		<div className='grow flex flex-col justify-center text-center max-w-md w-full container space-y-10'>
@@ -25,7 +21,11 @@ export default function Home() {
 								<JoinLobbyForm />
 							</DialogContent>
 						</Dialog>
-						<Button variant={'outline'}>Создать свою игру</Button>
+						<Link href={newLobbyUrl}>
+							<Button variant={'outline'} className='w-full'>
+								Создать свою игру
+							</Button>
+						</Link>
 					</div>
 				</>
 			) : (
