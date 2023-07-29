@@ -52,10 +52,10 @@ const Page: FC<PageProps> = ({ params }) => {
 						>
 							{user.username[0]}
 						</div>
-						<div className='font-semibold'>
+						<div className='font-semibold relative'>
 							{user.username}
 							{user.username === amdin.username ? (
-								<span className='absolute'>
+								<span className='absolute -right-4'>
 									<StarFilledIcon className='w-3 h-3 text-sky-500' />
 								</span>
 							) : null}
