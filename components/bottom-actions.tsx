@@ -7,7 +7,7 @@ export const BottomActions: FC = () => {
 	return (
 		<nav className='fixed bottom-0 h-16 border-t w-full bg-background container flex justify-between items-center'>
 			<Button variant={'outline'}>Выйти из лобби</Button>
-			{currentUser.username === amdin.username ? <Button>Войти</Button> : null}
+			{currentUser.username === amdin.username ? <Button>Начать</Button> : null}
 		</nav>
 	);
 };

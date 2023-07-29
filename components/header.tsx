@@ -12,7 +12,7 @@ import {
 export const Header: FC = () => {
 	const user = true;
 	return (
-		<header className='container flex justify-between items-center h-16 sticky top-0 border-b'>
+		<header className='container flex justify-between items-center h-16 sticky top-0 border-b bg-background/50 backdrop-blur-sm z-10'>
 			<h2 className='font-extrabold text-transparent text-2xl bg-clip-text bg-gradient-to-r from-muted-foreground to-accent-foreground'>
 				Zapisochki
 			</h2>
