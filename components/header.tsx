@@ -1,5 +1,13 @@
 import { FC } from 'react';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from './ui/dropdown-menu';
 
 export const Header: FC = () => {
 	const user = true;
@@ -9,9 +17,16 @@ export const Header: FC = () => {
 				Zapisochki
 			</h2>
 			{user ? (
-				<button className='p-2'>
-					<DotsVerticalIcon className='w-6 h-6' />
-				</button>
+				<DropdownMenu>
+					<DropdownMenuTrigger>
+						<DotsVerticalIcon className='w-6 h-6' />
+					</DropdownMenuTrigger>
+					<DropdownMenuContent>
+						<DropdownMenuLabel>Профиль</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>Выйти</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
 			) : null}
 		</header>
 	);
