@@ -10,8 +10,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const formSchema = z.object({
-	username: z.string().nonempty().min(6),
-	email: z.string().email().nonempty(),
+	username: z.string().min(6, { message: 'Минимальная длина - 6 символов' }),
+	email: z.string().email('Некорректный email').nonempty('Не может быть пустым'),
 });
 
 export const LoginForm: FC = () => {
