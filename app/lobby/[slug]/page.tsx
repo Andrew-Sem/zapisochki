@@ -23,7 +23,7 @@ const Page: FC<PageProps> = ({ params }) => {
 	const amdin = { username: 'Losos' };
 	return (
 		<div className='mt-10 space-y-8'>
-			<div className='container space-y-4'>
+			<div className='container'>
 				<CopyLink />
 			</div>
 			<div>

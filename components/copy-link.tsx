@@ -20,7 +20,7 @@ export const CopyLink: FC = () => {
 	};
 
 	return (
-		<div>
+		<div className='space-y-4'>
 			<h1 className='text-2xl font-semibold'>Ссылка-приглашение:</h1>
 			<div className='bg-secondary p-4 rounded-md flex justify-between items-center'>
 				<span>{link}</span>
