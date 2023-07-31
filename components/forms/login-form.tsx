@@ -64,7 +64,7 @@ export const LoginForm: FC = () => {
 			</Form>
 			<div className='flex flex-col pt-3'>
 				<hr className='h-0 border-t mt-sm' />
-				<div className='-mt-2 text-sm text-center'>
+				<div className='-mt-2.5 text-sm text-center'>
 					<span className='px-3 bg-background text-muted-foreground'>Или</span>
 				</div>
 			</div>
