@@ -1,6 +1,6 @@
+import { CopyLink } from '@/components/copy-link';
 import { cn } from '@/lib/utils';
 import { ClipboardIcon, StarFilledIcon } from '@radix-ui/react-icons';
-import { StarIcon } from 'lucide-react';
 import { FC } from 'react';
 
 interface PageProps {
@@ -24,13 +24,7 @@ const Page: FC<PageProps> = ({ params }) => {
 	return (
 		<div className='mt-10 space-y-8'>
 			<div className='container space-y-4'>
-				<h1 className='text-2xl font-semibold'>Ссылка-приглашение:</h1>
-				<div className='bg-secondary p-4 rounded-md flex space-x-4 justify-between'>
-					<span>https://vk.com/im?sel=156224284...</span>
-					<button>
-						<ClipboardIcon className='w-5 h-5 hover:text-sky-500 transition duration-200' />
-					</button>
-				</div>
+				<CopyLink />
 			</div>
 			<div>
 				<h1 className='text-2xl font-semibold container'>Лобби:</h1>
