@@ -7,7 +7,10 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"db:introspect": "drizzle-kit introspect:mysql"
+		"postinstall": "drizzle-kit generate:mysql",
+		"db:introspect": "drizzle-kit introspect:mysql",
+		"db:push": "drizzle-kit push:mysql",
+		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.1.1",
