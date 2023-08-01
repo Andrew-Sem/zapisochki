@@ -1,13 +1,16 @@
 'use client';
+
 import { FC } from 'react';
 import Image from 'next/image';
-import { ArrowRightIcon, ChevronRightIcon, GitHubLogoIcon } from '@radix-ui/react-icons';
-import { Button } from '../ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
-import { Input } from '../ui/input';
+import { ArrowRightIcon, GitHubLogoIcon } from '@radix-ui/react-icons';
+import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { signIn } from 'next-auth/react';
+import { toast } from '@/components/ui/use-toast';
 
 const formSchema = z.object({
 	username: z.string().min(6, { message: 'Минимальная длина - 6 символов' }),
@@ -23,7 +26,23 @@ export const LoginForm: FC = () => {
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof formSchema>) => {
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		// const signInResult = await signIn('email', {
+		// 	email: values.email.toLowerCase(),
+		// 	redirect: false,
+		// 	callbackUrl: '/',
+		// });
+
+		const signInResult = await signIn('github');
+
+		if (!signInResult?.ok) {
+			return toast({
+				title: 'Something went wrong.',
+				description: 'Your sign in request failed. Please try again.',
+				variant: 'destructive',
+			});
+		}
+
 		console.log(values);
 	};
 	return (
@@ -86,6 +105,9 @@ export const LoginForm: FC = () => {
 				<Button
 					variant={'outline'}
 					className='w-full justify-normal space-x-4 py-4 group relative'
+					onClick={() => {
+						signIn('github');
+					}}
 				>
 					<GitHubLogoIcon className='w-[25px] h-[25px]' />
 					<span>Войти с GitHub</span>

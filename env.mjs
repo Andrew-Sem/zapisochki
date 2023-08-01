@@ -12,6 +12,8 @@ export const env = createEnv({
 		DATABASE_URL: z.string().url().min(1),
 		DATABASE_USERNAME: z.string().min(1),
 		DATABASE_PASSWORD: z.string().min(1),
+		NEXTAUTH_URL: z.string().min(1),
+		NEXTAUTH_SECRET: z.string().min(1),
 		GITHUB_ID: z.string().min(1),
 		GITHUB_SECRET: z.string().min(1),
 	},
@@ -36,6 +38,8 @@ export const env = createEnv({
 		DATABASE_URL: process.env.DATABASE_URL,
 		DATABASE_USERNAME: process.env.DATABASE_USERNAME,
 		DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
+		NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+		NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
 		GITHUB_ID: process.env.GITHUB_ID,
 		GITHUB_SECRET: process.env.GITHUB_SECRET,
 
