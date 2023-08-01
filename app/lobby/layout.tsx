@@ -2,7 +2,6 @@ import { getCurrentUser } from '@/lib/session';
 import { FC, ReactNode } from 'react';
 import { notFound, redirect } from 'next/navigation';
 import { Header } from '@/components/header';
-import { BottomActions } from '@/components/bottom-actions';
 import { authOptions } from '@/lib/auth';
 
 interface LobbyLayoutProps {
@@ -16,11 +15,10 @@ const LobbyLayout: FC<LobbyLayoutProps> = async ({ children }) => {
 		redirect(authOptions?.pages?.signIn || '/login');
 	}
 	return (
-		<div className='flex flex-col max-w-xl mx-auto relative'>
+		<>
 			<Header />
-			<main className='grow flex flex-col'>{children}</main>
-			<BottomActions />
-		</div>
+			<main className='grow flex flex-col max-w-xl mx-auto relative'>{children}</main>
+		</>
 	);
 };
 

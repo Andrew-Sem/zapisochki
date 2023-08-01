@@ -3,6 +3,9 @@ import GithubProvider from 'next-auth/providers/github';
 import { env } from '@/env.mjs';
 
 export const authOptions: NextAuthOptions = {
+	pages: {
+		signIn: '/login',
+	},
 	providers: [
 		GithubProvider({
 			clientId: env.GITHUB_ID,
