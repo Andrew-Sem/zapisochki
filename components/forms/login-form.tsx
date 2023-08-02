@@ -91,6 +91,9 @@ export const LoginForm: FC = () => {
 				<Button
 					variant={'outline'}
 					className='w-full justify-normal space-x-4 py-4 group relative'
+					onClick={() => {
+						signIn('google');
+					}}
 				>
 					<Image
 						src={'icons/google.svg'}
