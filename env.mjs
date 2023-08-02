@@ -8,11 +8,16 @@ export const env = createEnv({
 	 */
 	server: {
 		NODE_ENV: z.enum(['development', 'test', 'production']),
-		CLERK_SECRET_KEY: z.string().min(1),
 		DATABASE_HOST: z.string().min(1),
-		DATABASE_URL: z.string().url(),
+		DATABASE_URL: z.string().url().min(1),
 		DATABASE_USERNAME: z.string().min(1),
 		DATABASE_PASSWORD: z.string().min(1),
+		NEXTAUTH_URL: z.string().min(1),
+		NEXTAUTH_SECRET: z.string().min(1),
+		GITHUB_CLIENT_ID: z.string().min(1),
+		GITHUB_CLIENT_SECRET: z.string().min(1),
+		GOOGLE_CLIENT_ID: z.string().min(1),
+		GOOGLE_CLIENT_SECRET: z.string().min(1),
 	},
 
 	/**
@@ -29,15 +34,18 @@ export const env = createEnv({
 	 * middlewares) or client-side so we need to destruct manually.
 	 */
 	runtimeEnv: {
-		DATABASE_URL: process.env.DATABASE_URL,
 		NODE_ENV: process.env.NODE_ENV,
 		NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
 		DATABASE_HOST: process.env.DATABASE_HOST,
 		DATABASE_URL: process.env.DATABASE_URL,
 		DATABASE_USERNAME: process.env.DATABASE_USERNAME,
 		DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
-		// CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
-		// NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+		NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+		NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+		GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+		GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
+		GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+		GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
 
 		// NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 	},

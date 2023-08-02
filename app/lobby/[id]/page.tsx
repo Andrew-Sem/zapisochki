@@ -1,6 +1,8 @@
 import { CopyLink } from '@/components/copy-link';
+import { getCurrentUser } from '@/lib/session';
 import { cn } from '@/lib/utils';
-import { ClipboardIcon, StarFilledIcon } from '@radix-ui/react-icons';
+import { StarFilledIcon } from '@radix-ui/react-icons';
+import { notFound } from 'next/navigation';
 import { FC } from 'react';
 
 interface PageProps {
@@ -18,7 +20,12 @@ const users: { username: string }[] = [
 	{ username: 'Vobla' },
 ];
 
-const Page: FC<PageProps> = ({ params }) => {
+const Page: FC<PageProps> = async ({ params }) => {
+	const user = await getCurrentUser();
+
+	if (!user) {
+		notFound();
+	}
 	const currentUser = { username: 'Karas' };
 	const amdin = { username: 'Losos' };
 	return (
