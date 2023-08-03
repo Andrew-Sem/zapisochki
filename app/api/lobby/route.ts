@@ -10,7 +10,7 @@ export const POST = async () => {
         const session = await getServerSession(authOptions)
 
         if (!session) {
-            return new Response("Unauthorized", { status: 403 })
+            return new NextResponse("Unauthorized", { status: 403 })
         }
 
         const lobbyAdmin = session.user
