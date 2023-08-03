@@ -2,16 +2,11 @@ import { JoinLobbyForm } from '@/components/forms/join-lobby-form';
 import { Header } from '@/components/header';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { getAllQuotes } from '@/lib/db/getAllQuotes';
 import { getCurrentUser } from '@/lib/session';
 import { generateRandomString } from '@/utils/generateRandomString';
 import Link from 'next/link';
 
-// Client Components:
-
 export default async function Home() {
-	const data = await getAllQuotes();
-	console.log(data);
 	const newLobbyUrl = '/lobby/' + generateRandomString(16);
 	const user = await getCurrentUser();
 	return (

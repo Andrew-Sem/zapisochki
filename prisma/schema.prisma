@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Player {
+  id       String  @id @default(cuid())
+  username String
+  umageUrl String
+  email    String
+  Lobby    Lobby?  @relation(fields: [lobbyId], references: [id])
+  lobbyId  String?
+
+  
+  @@map(name: "players")
+  @@index([lobbyId])
+}
+
+model Lobby {
+  id      String   @id @default(cuid())
+  adminId String   @map("admin_id")
+  players Player[]
+
+  @@map(name: "lobbies")
+}
