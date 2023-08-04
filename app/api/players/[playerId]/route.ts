@@ -15,7 +15,10 @@ export const GET = async (
             },
         })
         if (!player)
-            return new NextResponse("Player not found", { status: 404 })
+            return new NextResponse(null, {
+                status: 404,
+                statusText: "Player not found",
+            })
 
         return new NextResponse(JSON.stringify(player))
     } catch (e) {
