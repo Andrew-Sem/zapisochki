@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 
-export const POST = async (req: NextRequest) => {
+export const POST = async () => {
     try {
         const session = await getServerSession(authOptions)
 
@@ -25,10 +25,15 @@ export const POST = async (req: NextRequest) => {
             data: {
                 adminId: lobbyAdmin.id,
                 players: {
-                    create: {
-                        id: lobbyAdmin.id,
-                        imageUrl: lobbyAdmin.image,
-                        username: lobbyAdmin.name,
+                    connectOrCreate: {
+                        create: {
+                            id: lobbyAdmin.id,
+                            imageUrl: lobbyAdmin.image,
+                            username: lobbyAdmin.name,
+                        },
+                        where: {
+                            id: lobbyAdmin.id,
+                        },
                     },
                 },
             },
