@@ -41,6 +41,9 @@ export const POST = async () => {
         return NextResponse.json(newLobby, { status: 200 })
     } catch (e) {
         console.log(e)
-        return NextResponse.json({ error: e }, { status: 500 })
+        return NextResponse.json(
+            { error: "Ошибка во время создания лобби" },
+            { status: 500 }
+        )
     }
 }
