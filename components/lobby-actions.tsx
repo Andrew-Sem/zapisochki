@@ -15,38 +15,53 @@ interface LobbyActionsProps {
 }
 
 export const LobbyActions: FC<LobbyActionsProps> = ({ userId }) => {
-    const { data: player, isLoading: isLoadingPlayer } = useQuery<Player>({
-        queryKey: ["get player by id"],
-        queryFn: () =>
-            fetch(`/api/players/${userId}`).then((res) => res.json()),
+    const {
+        data: player,
+        isLoading: isLoadingPlayer,
+        isError: isErrorPlayer,
+    } = useQuery<Player>({
+        queryKey: ["get player by id", userId],
+        queryFn: async () => {
+            const res = await fetch(`/api/players/${userId}`)
+            if (!res.ok) throw new Error(res.statusText)
+            return res.json()
+        },
     })
     const {
         data: lobby,
         isError: isErrorLobby,
         isLoading: isLoadingLobby,
         mutate,
-    } = useMutation<Lobby>(() =>
-        fetch("/api/lobby", {
+    } = useMutation<Lobby>(async () => {
+        const res = await fetch("/api/lobby", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
             },
-        }).then((res) => res.json())
-    )
+        })
+        if (!res.ok) throw new Error(res.statusText)
+        return res.json()
+    })
     const createLobbyHandler = () => {
         mutate()
     }
+
     if (isErrorLobby)
         toast({
             title: "Ошибка создания лобби",
-            description: "Попробуйте ещё раз",
+            description: "Попробуйте ещё раз попозже",
+        })
+
+    if (isErrorPlayer)
+        toast({
+            title: "Ошибка получения информации об игроке",
+            description: "Попробуйте ещё раз попозже",
         })
 
     if (isLoadingPlayer || isLoadingLobby)
         return (
-            <div className="flex justify-center mt-4 space-x-2 items-center">
-                <Loader className="w-4 h-4" />
-                <span>Загрузка лобби</span>
+            <div className="flex justify-center mt-6 items-center">
+                <Loader className="w-6 h-6" />
             </div>
         )
     return (
