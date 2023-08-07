@@ -1,40 +1,29 @@
+import { $api } from "@/http/api"
 import { Lobby, Player } from "@prisma/client"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
 export const useFetchPlayerById = (id: string) =>
     useQuery<Player>({
         queryKey: ["get player by id", id],
-        queryFn: async () => {
-            const res = await fetch(`/api/players/${id}`)
-            if (!res.ok) throw new Error(res.statusText)
-            return res.json()
-        },
+        queryFn: () => $api.get(`/players/${id}`),
     })
 
 export const useCreateLobbyMutation = () =>
-    useMutation<Lobby>(async () => {
-        const res = await fetch("/api/lobby", {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-        if (!res.ok) throw new Error(res.statusText)
-        return res.json()
+    useMutation<Lobby>({
+        mutationKey: ["create new lobby"],
+        mutationFn: () => $api.post(`lobby`),
     })
 
 export const useDeletePlayerFromLobbyMutation = (
     lobbyId: string,
     playerId: string
 ) =>
-    useMutation(async () => {
-        const res = await fetch(`/api/lobby/${lobbyId}/players`, {
-            method: "delete",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ playerId: playerId }),
-        })
-        if (!res.ok) throw new Error(res.statusText)
-        return res.json()
+    useMutation({
+        mutationKey: ["delete player from lobby", lobbyId, playerId],
+        mutationFn: () =>
+            $api.delete(`/lobby/${lobbyId}/players`, {
+                data: {
+                    playerId,
+                },
+            }),
     })
