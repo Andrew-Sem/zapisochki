@@ -9,17 +9,23 @@ export const POST = async () => {
         const session = await getServerSession(authOptions)
 
         if (!session) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
+            return new Response(null, {
+                status: 403,
+                statusText: "Unauthorized",
+            })
         }
 
         const lobbyAdmin = session.user
         if (!lobbyAdmin.name)
-            return NextResponse.json({ error: "No user name" }, { status: 404 })
+            return new Response(null, {
+                status: 404,
+                statusText: "No user name",
+            })
         if (!lobbyAdmin.image)
-            return NextResponse.json(
-                { error: "No user image" },
-                { status: 404 }
-            )
+            return new Response(null, {
+                status: 404,
+                statusText: "No user image",
+            })
 
         const newLobby = await db.lobby.create({
             data: {
@@ -41,9 +47,9 @@ export const POST = async () => {
         return NextResponse.json(newLobby, { status: 200 })
     } catch (e) {
         console.log(e)
-        return NextResponse.json(
-            { error: "Ошибка во время создания лобби" },
-            { status: 500 }
-        )
+        return new Response(null, {
+            status: 500,
+            statusText: "Ошибка во время создания лобби",
+        })
     }
 }
