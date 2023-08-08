@@ -1,31 +1,36 @@
 "use client"
 
-import { FC } from "react"
+import { FC, useState } from "react"
 import Link from "next/link"
+import { LobbyService } from "@/services/LobbyService"
+import { PlayerService } from "@/services/PlayerService"
 import { Player } from "@prisma/client"
-import { useQueryClient } from "@tanstack/react-query"
+import {
+    useIsFetching,
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from "@tanstack/react-query"
 
 import { Button, buttonVariants } from "@/components/ui/button"
 
 import { Loader } from "../ui/loader"
-import {
-    useCreateLobbyMutation,
-    useDeletePlayerFromLobbyMutation,
-    useFetchPlayerById,
-} from "./lobbyApi"
 
 interface LobbyActionsProps {
     userId: string
 }
 
 export const LobbyActions: FC<LobbyActionsProps> = ({ userId }) => {
-    const { data: player, isLoading } = useFetchPlayerById(userId)
+    const { data: player, isLoading } = useQuery<Player, Error>({
+        queryKey: ["players", userId],
+        queryFn: () =>
+            PlayerService.fetchPlayerById(userId).then((res) => res.data),
+    })
 
     if (isLoading)
         return (
-            <div className="space-x-2 flex items-center justify-center mt-8">
+            <div className="flex justify-center mt-8">
                 <Loader className="w-4 h-4" />
-                <span>Загрузка лобби</span>
             </div>
         )
     return (
@@ -35,7 +40,7 @@ export const LobbyActions: FC<LobbyActionsProps> = ({ userId }) => {
                     player={player as PlayerInLobbyActionsProps["player"]}
                 />
             ) : (
-                <PlayerNotInLobbyActions />
+                <PlayerNotInLobbyActions userId={userId} />
             )}
         </div>
     )
@@ -46,14 +51,27 @@ interface PlayerInLobbyActionsProps {
 }
 
 const PlayerInLobbyActions: FC<PlayerInLobbyActionsProps> = ({ player }) => {
-    const queryClient = useQueryClient()
-    const { mutateAsync: deletePlayerFromLobby, isLoading } =
-        useDeletePlayerFromLobbyMutation(player.lobbyId, player.id)
+    const isLoadingPlayer = useIsFetching(["players"])
 
-    const deletePlayerFromLobbyHandler = async () => {
-        await deletePlayerFromLobby()
-        queryClient.invalidateQueries(["get player by id"])
+    const queryClient = useQueryClient()
+    const { mutate: deletePlayerFromLobby, isLoading } = useMutation({
+        mutationKey: ["lobby", player.lobbyId, "players", player.id],
+        mutationFn: () => LobbyService.signOut(player.lobbyId, player.id),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["players", player.id])
+        },
+    })
+
+    const deletePlayerFromLobbyHandler = () => {
+        deletePlayerFromLobby()
     }
+
+    if (isLoadingPlayer)
+        return (
+            <div className="flex justify-center mt-8">
+                <Loader className="w-4 h-4" />
+            </div>
+        )
 
     return (
         <div className="mt-4">
@@ -79,14 +97,34 @@ const PlayerInLobbyActions: FC<PlayerInLobbyActionsProps> = ({ player }) => {
     )
 }
 
-const PlayerNotInLobbyActions: FC = ({}) => {
-    const { mutateAsync: createLobby, isLoading } = useCreateLobbyMutation()
-    const queryClient = useQueryClient()
+interface PlayerNotInLobbyActionsProps {
+    userId: string
+}
 
-    const createLobbyHandler = async () => {
-        await createLobby()
-        queryClient.invalidateQueries(["get player by id"])
+const PlayerNotInLobbyActions: FC<PlayerNotInLobbyActionsProps> = ({
+    userId,
+}) => {
+    const isLoadingPlayer = useIsFetching(["players"])
+    const queryClient = useQueryClient()
+    const { mutate: createLobby, isLoading } = useMutation({
+        mutationKey: ["lobby", userId],
+        mutationFn: () => LobbyService.create().then((res) => res.data),
+        onSuccess: () => {
+            queryClient.invalidateQueries(["players"])
+        },
+    })
+
+    const createLobbyHandler = () => {
+        createLobby()
     }
+
+    if (isLoadingPlayer)
+        return (
+            <div className="flex justify-center mt-8">
+                <Loader className="w-4 h-4" />
+            </div>
+        )
+
     return (
         <div className="flex flex-col space-y-4 mt-8">
             <Button>Присоединиться к игре</Button>
